@@ -1,13 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import '../style.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client"; 
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";  
+import App from "./App";
+import { store } from "./redux/store";
+import "./tailwind.css";  
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root")); 
+
+root.render(
   <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );

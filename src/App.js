@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Cart from './pages/Cart';
-import Login from './pages/Login';
+import AboutUs from './pages/About';
+import Cart from './pages/Cart'; 
+import ContactUs from './pages/Contact';
+import AdminDashboard from './pages/AdminDashboard';
+import Product from "./components/Product"; 
+import Login from './components/Login';
+import ChangePassword from './components/ChangePassword';
 
 const App = () => {
-  const [user, setUser] = useState(localStorage.getItem('token') ? true : false); // Check if user is logged in
-
   return (
-    <Router>
-      <Header />
-      <div className="pt-16">
+    <div>
+      <header className="bg-orange-300 p-4">
+        <nav className="flex justify-between items-center">
+          <h1 className="text-white text-2xl">Kookie's Kitchen</h1>
+          <ul className="flex space-x-4">
+            <li><a href="/" className="text-white">Home</a></li>
+            <li><a href="/about" className="text-white">About Us</a></li>
+            <li><a href="/cart" className="text-white">Cart</a></li>
+            <li><a href="/contact" className="text-white">Contact Us</a></li>
+            <li><a href="/login" className="text-white">Login</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/change-password" component={ChangePassword} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
-      </div>
-    </Router>
+      </main>
+    </div>
   );
 };
 

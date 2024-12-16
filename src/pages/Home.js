@@ -1,52 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../api/axios';
+import axios from 'axios';
 
 const Home = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [menuItems, setMenuItems] = useState([]); 
+  const [error, setError] = useState(null);     
+  const [loading, setLoading] = useState(true);  
 
+ 
   useEffect(() => {
-    const fetchMenuItems = async () => {
+    const fetchMenu = async () => {
       try {
-        const response = await axios.get('/auth/menu');
+        setLoading(true);
+        setError(null); 
+        const response = await axios.get('/api/menu'); //check
         setMenuItems(response.data);
       } catch (err) {
-        setError('Failed to load menu');
+        console.error('Error fetching menu data:', err);
+        setError(err.message || 'Failed to fetch menu data');
       } finally {
-        setLoading(false);
+        setLoading(false); 
       }
     };
 
-    fetchMenuItems();
+    fetchMenu();
   }, []);
 
-  if (loading) {
-    return <div className="spinner">Loading...</div>; // Add a spinner or loading indicator
-  }
+  // Render loading or error states
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
+  // Render the menu
   return (
-    <div className="container mx-auto px-4">
-      <h2 className="text-2xl font-bold">Menu</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {menuItems.map((item) => (
-          <div key={item.id} className="p-4 bg-white border rounded shadow-lg">
-            <img src={item.imageUrl} alt={item.name} className="w-full h-32 object-cover rounded-md" />
-            <h3 className="mt-2 text-xl font-semibold">{item.name}</h3>
-            <p className="text-gray-700">{item.description}</p>
-            <div className="mt-4 flex justify-between items-center">
-              <span className="font-bold text-xl">₹{item.price}</span>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+      <h1>Menu</h1>
+      {menuItems.length > 0 ? (
+        <ul>
+          {menuItems.map((item) => (
+            <li key={item._id}>{item.name} - ${item.price}</li> 
+          ))}
+        </ul>
+      ) : (
+        <p>No menu items available</p>
+      )}
     </div>
   );
 };

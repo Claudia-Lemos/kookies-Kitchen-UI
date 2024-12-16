@@ -1,19 +1,20 @@
 import axios from 'axios';
 
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api',
+
+const API_BASE_URL = 'http://localhost:5000/api';  // Change to match your backend URL
+
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
 });
 
-// Interceptor to add JWT token to requests
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+const setAuthToken = (token) => {
+  if (token) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common['Authorization'];
+  }
+};
 
-export default axiosInstance;
+export { api, setAuthToken };
+export default api;
