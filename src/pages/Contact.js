@@ -34,7 +34,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white shadow-md rounded-lg">
+    <div className='bg-gradient-to-r from-orange-300 to-yellow-100 min-h-screen'>
+    <div className="p-6 max-w-2xl mx-auto bg-yellow-100 shadow-md rounded-lg">
       <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -63,7 +64,7 @@ const Contact = () => {
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Sending..." : "Send Message"}
@@ -72,10 +73,11 @@ const Contact = () => {
 
       <div className="mt-6">
         <h3 className="text-lg font-semibold">Connect with Us:</h3>
-        <p>WhatsApp: <a href="tel:+91XXXXXXXXXX" className="text-indigo-600">+91-XXXXXXXXXX</a></p>
-        <p>Twitter: <a href="https://twitter.com/Kookies_Kitchen" className="text-indigo-600">@Kookies_Kitchen</a></p>
-        <p>Instagram: <a href="https://instagram.com/Kookies_Kitchen" className="text-indigo-600">@Kookies_Kitchen</a></p>
+        <p>WhatsApp: <a href="tel:+91XXXXXXXXXX" className="text-green-600">+91-XXXXXXXXXX</a></p>
+        <p>Twitter: <a href="https://twitter.com/Kookies_Kitchen" className="text-green-600">@Kookies_Kitchen</a></p>
+        <p>Instagram: <a href="https://instagram.com/Kookies_Kitchen" className="text-green-600">@Kookies_Kitchen</a></p>
       </div>
+    </div>
     </div>
   );
 };

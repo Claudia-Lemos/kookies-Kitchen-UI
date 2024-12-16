@@ -10,24 +10,22 @@ const Home = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        setLoading(true);
-        setError(null); 
-        const response = await axios.get('/api/menu'); //check
-        setMenuItems(response.data);
+        const response = await axios.get('/api/data.json'); 
+        console.log('Menu API Response:', response.data); 
+        setMenuItems(response.data); 
       } catch (err) {
         console.error('Error fetching menu data:', err);
         setError(err.message || 'Failed to fetch menu data');
-      } finally {
-        setLoading(false); 
       }
     };
+    
 
     fetchMenu();
   }, []);
 
   // Render loading or error states
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div className='bg-gradient-to-r from-orange-300 to-yellow-100 min-h-screen'>Loading...</div>;
+  if (error) return <div className='bg-gradient-to-r from-orange-300 to-yellow-100 min-h-screen'>Error: {error}</div>;
 
   // Render the menu
   return (
@@ -36,7 +34,7 @@ const Home = () => {
       {menuItems.length > 0 ? (
         <ul>
           {menuItems.map((item) => (
-            <li key={item._id}>{item.name} - ${item.price}</li> 
+            <li key={item._id}>{item.name} - ₹{item.price}</li> 
           ))}
         </ul>
       ) : (

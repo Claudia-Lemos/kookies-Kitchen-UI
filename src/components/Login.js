@@ -1,71 +1,72 @@
+// In your Login.js (Frontend) component
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); 
+  const [error, setError] = useState(null); // State to capture error messages
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    // Send a POST request to the backend API to login
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.firstLogin) {
-      navigate('/change-password');  
-    } else {
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-        navigate('/dashboard'); 
+      if (response.ok) {
+        // Handle successful login (store token, redirect, etc.)
+        console.log('Login successful:', data);
+        localStorage.setItem('token', data.token); // Save the JWT token in localStorage
+        // Redirect to dashboard or home page
+        window.location.href = '/dashboard';  // You can adjust the redirect as needed
       } else {
-        setErrorMessage('Invalid email or password');
+        // Handle error response
+        setError(data.message || 'Login failed. Please try again.');
       }
+    } catch (err) {
+      // Catch any errors during fetch
+      console.error('Error during login:', err);
+      setError('An error occurred. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
-        <form onSubmit={handleLogin}>
-          <div className="mb-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-          <div className="mb-6">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Display error if any */}
     </div>
   );
 };

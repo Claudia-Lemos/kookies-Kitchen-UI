@@ -24,7 +24,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 bg-gradient-to-r from-orange-300 to-yellow-100 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
 
       {cartItems.length === 0 ? (

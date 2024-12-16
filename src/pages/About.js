@@ -2,7 +2,8 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg m-4">
+    <div className="bg-gradient-to-r from-orange-300 to-yellow-100 min-h-screen">
+    <div className="p-6 max-w-4xl mx-auto bg-yellow-100 shadow-md rounded-lg">
       <h2 className="text-3xl font-bold mb-4">About Us</h2>
       <p className="m-6">
         Welcome to Kookies Kitchen! We are dedicated to delivering the best
@@ -32,6 +33,7 @@ const About = () => {
           Top Management Team
         </a>
       </p>
+    </div>
     </div>
   );
 };
